@@ -18,20 +18,22 @@ def databaseF():
         #record_to_insert = (temp,humi,date)
         cursor.execute(postgres_insert_query)
         #connection.commit()
-        count = cursor.rowcount
-        print(count, "Record inserted successfully into table")
+        results = cursor.fetchone()
+        #count = cursor.rowcount
+        #print(count, "Record inserted successfully into table")
 
     except (Exception, Error) as error:
         print(error)
     finally:
         if (connection):
+            return results
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
     
 
 @app.route("/")
-def index():
-    return "Hello World!"
+def index(res):
+    databaseF()
+    #return "Hello World!"
 
-databaseF()
