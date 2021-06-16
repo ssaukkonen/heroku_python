@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import render_template
 import psycopg2
 from psycopg2 import Error
 import textwrap
@@ -51,9 +52,13 @@ def databaseF():
     
 
 @app.route("/")
+@app.route('/index')
 def index():
     global averageT, averageH, maxT, minT, maxH, minH, lastT, lastH, lastTime
     databaseF()
-    return averageT
+    return render_template('index.html', lastT=lastT, lastH=lastH, lastTime=lastTime,
+                           averageT=averageT, averageH=averageH, maxT=maxT, minT=minT,
+                           maxH=maxH, minH=minH)
+    #return averageT
     #return "Hello World!"
 
